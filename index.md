@@ -1,15 +1,9 @@
 ---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
 layout: default
 ---
 
-# I will be attempting to make some fun projects on this page and share it with everyone!
-
-[This should link you to my first page](first)
-
-<button onclick="myFunction()">Try it</button>
-
-<script>
-function myFunction() {
-  alert("Hello! I am an alert box!");
-}
-</script>
+hello! i am sam 
+[this should link](first)
