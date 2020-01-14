@@ -6,7 +6,10 @@ layout: default
 
 [This should link you to my first page](first)
 
+<button onclick="myFunction()">Try it</button>
 
 <script>
-alert("Hello!");
+function myFunction() {
+  alert("Hello! I am an alert box!");
+}
 </script>
