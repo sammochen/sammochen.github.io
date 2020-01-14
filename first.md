@@ -9,8 +9,8 @@ canvas.style.position = "absolute";
 canvas.style.border = "1px solid";
 
 
-var body = document.getElementsByTagName("body")[0];
-body.appendChild(canvas);
+var section = document.getElementsByTagName("section")[0];
+section.appendChild(canvas);
 
 cursorLayer = document.getElementById("CursorLayer");
 
