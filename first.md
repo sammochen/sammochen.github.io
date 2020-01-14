@@ -1,6 +1,3 @@
-below should be a square!
-
-<div>
 <script>
 var canvas = document.createElement('canvas');
 var parent = document.getElementsByTagName("section")[0];
@@ -28,6 +25,4 @@ ctx.fillStyle = "rgba(0, 255, 0, 0.2)";
 ctx.fillRect(150, 150, 200, 200);
 ctx.fillStyle = "rgba(0, 0, 255, 0.2)";
 ctx.fillRect(200, 50, 200, 200);
-</script></div>
-
-the square should be above me
+</script>
