@@ -5,15 +5,14 @@ var canvas = document.createElement('canvas');
 var parent = document.getElementsByTagName("section")[0];
 
 canvas.id = "CursorLayer";
-canvas.width = parent.width();
-canvas.height = parent.width();
+canvas.width = parent.offsetWidth;
+canvas.height = parent.offsetWidth;
 canvas.style.zIndex = 8;
 canvas.style.position = "absolute";
 canvas.style.border = "1px solid";
 
 
-var section = document.getElementsByTagName("section")[0];
-section.appendChild(canvas);
+parent.appendChild(canvas);
 
 cursorLayer = document.getElementById("CursorLayer");
 
