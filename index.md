@@ -15,4 +15,5 @@ enjoy!
 ### - samuel chen 
 
 
-[link](first)
+[first](first)  
+[tictactoe](tictactoe)

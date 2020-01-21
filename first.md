@@ -2,10 +2,9 @@
 layout: default
 ---
 
-<h2> colourful square </h2>
+## colourful square
 
-<div height='500' width='500' id="content" style="float: left"></div>
-
+<div height='500' width='500' id="content"></div>
 <p>&nbsp;</p>
 ### description
 on mouse over, the square will change colour!
