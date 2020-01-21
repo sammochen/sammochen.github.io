@@ -23,8 +23,8 @@ function start() {
 	player = startingplayer;
 	startingplayer = 3 - startingplayer;
 
-	if (player == 1) canclick = 1;
-	else canclick = 0;
+	if (player == 2) canclick = 0;
+	else canclick = 1;
 
 	for (let i = 0; i < 3; i++) {
 		realgrid[i] = new Array(3);
@@ -38,9 +38,10 @@ function start() {
 
 	if (player == 2) {
 		let nextmove = getBestMove(realgrid, player, fullness);
+		let choose = Math.floor(Math.random() * Math.floor(nextmove[1].length));
 		setTimeout(function(){
-			move(nextmove[1][0], nextmove[1][1]);
-			canclick = 1;
+			move(nextmove[1][choose][0], nextmove[1][choose][1]);
+		canclick = 1;
 		}, 200);
 	}
 }
@@ -54,7 +55,7 @@ function update(a) {
 
 	canclick = 0;
 
-	move(i, j);
+	if (move(i, j) == 1) return;
 
 	let nextmove = getBestMove(realgrid, player, fullness);
 	let choose = Math.floor(Math.random() * Math.floor(nextmove[1].length));
@@ -69,17 +70,23 @@ function move(i, j) {
 
 	realgrid[i][j] = player;
 	fullness++;
+
+	let returncode;
+
 	if (fullness == 9 || checkgame(realgrid, player, fullness)) {
-		playing = 0;
 		setTimeout(function(){
 			start();
 		}, 400);
+		returncode = 1;
 	}
 
 	if (player == 1) paint("#ED6A5A",i,j);
 	else if (player == 2) paint("#36C9C6",i,j);
 
 	player = 3 - player
+
+	returncode = 0;
+	return returncode;	
 }
 
 // brains
