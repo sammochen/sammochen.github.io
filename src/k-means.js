@@ -4,7 +4,6 @@ var image = document.createElement('img');
 image.src = "/img/image.jpg";
 
 canvas.style.width = '100%';
-canvas.height = canvas.width * 1.4;
 canvas.style.border = "1px solid";
 
 parent.appendChild(canvas);
@@ -15,9 +14,16 @@ let ctx = canvas.getContext("2d");
 
 let kvalue = 5;
 
-image.addEventListener('load', e => {
+
+
+image.onload = function(){
+	height = canvas.width / image.width * image.height;
+	canvas.height = height;
+
 	ctx.drawImage(image, 0, 0, width, height);
-});
+  
+	// code here to use the dimensions
+  }
 
 var loadFile = function(event) {
 	image.src = URL.createObjectURL(event.target.files[0]);
