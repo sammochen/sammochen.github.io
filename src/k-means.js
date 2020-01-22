@@ -14,16 +14,12 @@ let ctx = canvas.getContext("2d");
 
 let kvalue = 5;
 
-
-
 image.onload = function(){
-	height = canvas.width / image.width * image.height;
+	height = Math.floor(canvas.width / image.width * image.height);
 	canvas.height = height;
-
+	
 	ctx.drawImage(image, 0, 0, width, height);
-  
-	// code here to use the dimensions
-  }
+}
 
 var loadFile = function(event) {
 	image.src = URL.createObjectURL(event.target.files[0]);
@@ -32,6 +28,7 @@ var loadFile = function(event) {
 canvas.onclick = process
 
 function process() {
+	kvalue = document.getElementById("kvalue").value;
 	let rgbaArray = getRGBA();
 	let processedArray = kmeans(rgbaArray, kvalue);
 	let processedImageData = setRGBA(processedArray);
@@ -63,9 +60,9 @@ function getRGBA() {
 function setRGBA(processedArray) {
 	let height = processedArray.length;
 	let width = processedArray[0].length;
-
+	
 	let imageData = ctx.createImageData(width, height);
-
+	
 	for (let i = 0; i < height; i++) {
 		for (let j = 0; j < width; j++) {
 			for (let color = 0; color < 4; color++) {
@@ -106,7 +103,7 @@ function kmeans(rgba, k) {
 		for (let color = 0; color < 4; color++) {
 			kmeans[i][color] = randomcolor[color];
 		}
-
+		
 	}
 	
 	// iterate!
@@ -116,7 +113,7 @@ function kmeans(rgba, k) {
 		
 		for (let cluster = 0; cluster < k; cluster++) {
 			clusterCount[cluster] = 0;
-
+			
 			clusterColorSum[cluster] = new Array(4);
 			for (let color = 0; color < 4; color++) {
 				clusterColorSum[cluster][color] = 0;
@@ -179,7 +176,7 @@ function kmeans(rgba, k) {
 			}
 		}
 	}
-
+	
 	return processedArray;
 	
 }
