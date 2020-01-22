@@ -9,14 +9,14 @@ canvas.style.border = "1px solid";
 parent.appendChild(canvas);
 
 let width = canvas.width;
-let height = canvas.height;
+let height = 0;
 let ctx = canvas.getContext("2d");
-
-let kvalue = 5;
+let processed = false;
 
 image.onload = function(){
 	height = Math.floor(canvas.width / image.width * image.height);
 	canvas.height = height;
+	processed = false;
 	
 	ctx.drawImage(image, 0, 0, width, height);
 }
@@ -27,13 +27,42 @@ var loadFile = function(event) {
 
 canvas.onclick = process
 
+let kvalue;
+let rgba;
+let kvalues;
+let iterations = 0;
+
 function process() {
+	if (processed) return;
+	processed = true;
+	iterations = 0;
+
 	kvalue = document.getElementById("kvalue").value;
-	let rgbaArray = getRGBA();
-	let processedArray = kmeans(rgbaArray, kvalue);
-	let processedImageData = setRGBA(processedArray);
+	rgba = getRGBA();
+	kvalues = generateRandomKValues(rgba, kvalue);
+	window.requestAnimationFrame(draw);
+}
+
+function draw() {
+	iterations++;
+	if (iterations > 30) return;
+
+	let newkvalues = iterate(rgba, kvalues, kvalue);
+	let same = true;
+	for (let cluster = 0; cluster < kvalue; cluster++) {
+		for (let color = 0; color < 4; color++) {
+			if (kvalues[cluster][color] != newkvalues[cluster][color]) {
+				same = false;
+			}
+		}
+	}
+	if (same == true) return;
+	kvalues = newkvalues;
+	let newrgba = generateArrayFromKMeans(rgba, kvalues, kvalue);
+	let processedImageData = setRGBA(newrgba);
 	
 	ctx.putImageData(processedImageData, 0, 0);
+	window.requestAnimationFrame(draw);
 }
 
 function index(i, j, color) {
@@ -83,17 +112,13 @@ function colorDist(color1, color2) {
 	return dist;
 }
 
-function kmeans(rgba, k) {
-	let height = rgba.length;
-	let width = rgba[0].length;
-	
+function generateRandomKValues(rgba, k) {	
 	// choose k random values from (width, height)
 	let randomk = [];
 	while (randomk.length < k) {
 		let x = Math.floor(Math.random() * height * width);
 		if (randomk.indexOf(x) == -1) randomk.push(x);
 	}
-	
 	// array of colours that are the middles. initially random colours from the image.
 	let kmeans = new Array(k);
 	for (let i = 0; i < k; i++) {
@@ -105,53 +130,61 @@ function kmeans(rgba, k) {
 		}
 		
 	}
-	
+	return kmeans;
+}
+
+function iterate(rgba, kvalues, k) {
 	// iterate!
-	for (let iteration = 0; iteration < 50; iteration++) {
-		let clusterColorSum = new Array(k);
-		let clusterCount = new Array(k);
+	let clusterColorSum = new Array(k);
+	let clusterCount = new Array(k);
+	
+	for (let cluster = 0; cluster < k; cluster++) {
+		clusterCount[cluster] = 0;
 		
-		for (let cluster = 0; cluster < k; cluster++) {
-			clusterCount[cluster] = 0;
-			
-			clusterColorSum[cluster] = new Array(4);
-			for (let color = 0; color < 4; color++) {
-				clusterColorSum[cluster][color] = 0;
-			}
-		}
-		
-		// assign each i,j to the closest cluster, and mark it
-		for (let i = 0; i < height; i++) {
-			for (let j = 0; j < width; j++) {
-				let dist = 1e18;
-				let bestcluster = -1;
-				
-				for (let cluster = 0; cluster < k; cluster++) {
-					let thisdist = colorDist(rgba[i][j], kmeans[cluster]);
-					if (thisdist < dist) {
-						dist = thisdist;
-						bestcluster = cluster;
-					}
-				}
-				
-				// add information to the clusters
-				
-				clusterCount[bestcluster]++;
-				for (let color = 0; color < 4; color++) {
-					clusterColorSum[bestcluster][color] += rgba[i][j][color];
-				}
-				
-			}
-		}
-		
-		// find the average of each cluster, and set that to be the new kmeans
-		for (let cluster = 0; cluster < k; cluster++) {
-			for (let color = 0; color < 4; color++) {
-				kmeans[cluster][color] = clusterColorSum[cluster][color] / clusterCount[cluster];
-			}
+		clusterColorSum[cluster] = new Array(4);
+		for (let color = 0; color < 4; color++) {
+			clusterColorSum[cluster][color] = 0;
 		}
 	}
 	
+	// assign each i,j to the closest cluster, and mark it
+	for (let i = 0; i < height; i++) {
+		for (let j = 0; j < width; j++) {
+			let dist = 1e18;
+			let bestcluster = -1;
+			
+			for (let cluster = 0; cluster < k; cluster++) {
+				let thisdist = colorDist(rgba[i][j], kvalues[cluster]);
+				if (thisdist < dist) {
+					dist = thisdist;
+					bestcluster = cluster;
+				}
+			}
+			
+			// add information to the clusters
+			
+			clusterCount[bestcluster]++;
+			for (let color = 0; color < 4; color++) {
+				clusterColorSum[bestcluster][color] += rgba[i][j][color];
+			}
+			
+		}
+	}
+
+	let newkvalues = new Array(k);
+	
+	// find the average of each cluster, and set that to be the new kmeans
+	for (let cluster = 0; cluster < k; cluster++) {
+		newkvalues[cluster] = new Array(4);
+		for (let color = 0; color < 4; color++) {
+			newkvalues[cluster][color] = Math.floor(clusterColorSum[cluster][color] / clusterCount[cluster]);
+		}
+	}
+	
+	return newkvalues;
+}
+
+function generateArrayFromKMeans(rgba, kmeans, k) {
 	// assign the colors back to the image!
 	let processedArray = new Array(height);
 	for (let i = 0; i < height; i++) {
@@ -178,6 +211,4 @@ function kmeans(rgba, k) {
 	}
 	
 	return processedArray;
-	
 }
-
