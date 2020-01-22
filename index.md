@@ -12,8 +12,7 @@ this is also a personal challenge for me to learn apps-in-web with js, as well a
 
 enjoy!
 
-### - samuel chen 
+### - sammochen 
 
-
-[square](first)  
-[tictactoe](tictactoe)
+[tic-tac-toe](posts/tic-tac-toe)  
+[k-means](posts/k-means)  

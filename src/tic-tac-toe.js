@@ -1,22 +1,22 @@
 var canvas = document.createElement('canvas');
 var parent = document.getElementById('content');
 
-canvas.width = 500;
-canvas.height = 500;
+canvas.style.width = '100%';
+canvas.height = canvas.width;
 canvas.style.border = "1px solid";
 
 parent.appendChild(canvas);
 
 var ctx = canvas.getContext("2d");
 var realgrid = new Array(3);
+var fullness;
 var startingplayer = 1;
 var player;
 var canclick;
-var fullness;
+
 start();
 
 canvas.onclick = update;
-
 
 function start() {
 	fullness = 0;
@@ -34,7 +34,7 @@ function start() {
 	}
 
 	ctx.fillStyle = "#FFFFFF";
-	ctx.fillRect(0,0,500,500);
+	ctx.fillRect(0,0,canvas.width,canvas.width);
 
 	if (player == 2) {
 		let nextmove = getBestMove(realgrid, player, fullness);
@@ -49,8 +49,9 @@ function start() {
 function update(a) {
 	if (canclick == 0) return;
 
-	let i = Math.floor(a.offsetX / (500 / 3));
-	let j = Math.floor(a.offsetY / (500 / 3));
+	let i = Math.floor(a.offsetX / (canvas.offsetWidth / 3));
+	let j = Math.floor(a.offsetY / (canvas.offsetWidth / 3));
+
 	if (realgrid[i][j] != 0) return;
 
 	canclick = 0;
@@ -71,7 +72,7 @@ function move(i, j) {
 	realgrid[i][j] = player;
 	fullness++;
 
-	let returncode;
+	let returncode = 0;
 
 	if (fullness == 9 || checkgame(realgrid, player, fullness)) {
 		setTimeout(function(){
@@ -85,7 +86,6 @@ function move(i, j) {
 
 	player = 3 - player
 
-	returncode = 0;
 	return returncode;	
 }
 
@@ -178,5 +178,6 @@ function checkgame(grid, player) {
 
 function paint(style, i, j) {
 	ctx.fillStyle = style;
-	ctx.fillRect(500/3 * i + 10, 500/3 * j + 10, 500/3 - 20, 500/3 - 20);
+	let width = canvas.width;
+	ctx.fillRect(width/3 * i + 10, width/3 * j + 10, width/3 - 20, width/3 - 20);
 }
