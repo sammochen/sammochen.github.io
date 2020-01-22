@@ -19,6 +19,10 @@ image.addEventListener('load', e => {
 	ctx.drawImage(image, 0, 0, width, height);
 });
 
+var loadFile = function(event) {
+	image.src = URL.createObjectURL(event.target.files[0]);
+};
+
 canvas.onclick = process
 
 function process() {
@@ -173,3 +177,4 @@ function kmeans(rgba, k) {
 	return processedArray;
 	
 }
+
