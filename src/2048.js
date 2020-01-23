@@ -18,9 +18,10 @@ function start() {
     for (let i = 0; i < 4; i++) {
         grid[i] = new Array(4);
         for (let j = 0; j < 4; j++) {
-            grid[i][j] = 2;
+            grid[i][j] = 0;
         }
     }
+    generateSquare();
     paintAll();
 }
 
