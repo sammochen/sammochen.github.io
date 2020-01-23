@@ -52,9 +52,9 @@ function move(e) {
         rotateClockwise();
     } else if (e.keyCode == 40) { // down
         rotateClockwise();
-        rotateClockwise();
-        rotateClockwise();
         for (let i = 0; i < 4; i++) grid[i] = moveLeft(grid[i]);
+        rotateClockwise();
+        rotateClockwise();
         rotateClockwise();
     } else {
         return; // invalid move
