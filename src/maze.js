@@ -29,7 +29,8 @@ for (let i = 0; i < n*n; i++) {
 }
 
 init();
-go();
+
+canvas.onclick = go;
 
 function init() {
     let ctx = canvas.getContext("2d");
@@ -116,7 +117,7 @@ async function dfs(at) {
         if (!visited[to]) {
             if (await dfs(to)) {
                 drawJoin(at, to, finalColor);
-                await sleep(10);
+                await sleep(20);
                 return true;
             }
         }

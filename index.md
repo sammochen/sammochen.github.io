@@ -16,3 +16,5 @@ enjoy!
 
 [tic-tac-toe](posts/tic-tac-toe)  
 [k-means](posts/k-means)  
+[2048](posts/2048)
+[maze](posts/maze)
