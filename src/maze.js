@@ -1,5 +1,6 @@
 var parent = document.getElementById('content');
 var canvas = document.createElement('canvas');
+var slider = document.getElementById('mySlider');
 
 canvas.style.width = '100%';
 
@@ -9,9 +10,8 @@ parent.appendChild(canvas);
 
 console.log(canvas.height);
 
-let n = 30;
+let n = 20;
 let margin = 1;
-let frame = 3;
 
 let defaultColor = "#FFF9CC";
 let wallColor = "#000000";
@@ -22,17 +22,24 @@ let finalColor = "#80FF72";
 let adjlist = new Array(n*n); // make an adjlist for dfs later
 let visited = new Array(n*n); // for the dfs later
 let prev = new Array(n*n); // parent of each node
-prev[0] = -1;
-for (let i = 0; i < n*n; i++) {
-    adjlist[i] = [];
-    visited[i] = false;
-}
 
 init();
 
 canvas.onclick = go;
+slider.oninput = init;
+
 
 function init() {
+    n = slider.value;
+    adjlist = new Array(n*n); // make an adjlist for dfs later
+    visited = new Array(n*n); // for the dfs later
+    prev = new Array(n*n); // parent of each node
+    prev[0] = -1;
+    for (let i = 0; i < n*n; i++) {
+        adjlist[i] = [];
+        visited[i] = false;
+    }
+    
     let ctx = canvas.getContext("2d");
     ctx.fillStyle = wallColor;
     ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -49,8 +56,10 @@ function hashcode(i, j) {
 }
 
 async function go() {
+    slider.disabled = true;
     await join();
     await dfs(0);
+    slider.disabled = false;
 }
 
 async function join() {
@@ -98,7 +107,7 @@ async function join() {
         adjlist[edge[1]].push(edge[0]);
         
         // wait
-        await sleep(3);
+        await sleep(1);
     }
 }
 
@@ -106,26 +115,26 @@ async function dfs(at) {
     visited[at] = true;
     drawSquare(at, trialColor)
     // wait
-    await sleep(3);
-
+    await sleep(1);
+    
     if (at == n*n-1) return true;
-
-
+    
+    
     for (let i = 0; i < adjlist[at].length; i++) {
         let to = adjlist[at][i];
         prev[to] = at;
         if (!visited[to]) {
             if (await dfs(to)) {
                 drawJoin(at, to, finalColor);
-                await sleep(20);
+                await sleep(10);
                 return true;
             }
         }
     }
-
+    
     drawSquare(at, visitedColor);
-    await sleep(3);
-
+    await sleep(1);
+    
     return false;
 }
 

@@ -4,6 +4,10 @@ title: maze
 src: ../src/maze.js
 ---
 
+
+<input type="range" min="5" max="50" value="30" class="slider" id="mySlider" style="width:100%;">
+
+
 ### description
 i've always wondered how people make mazes for magazines! this is a random maze generator and is different everytime! 
 there are 2 steps: maze creation and path detection.
