@@ -59,7 +59,7 @@ function update(a) {
 	if (move(i, j) == 1) return;
 
 	let nextmove = getBestMove(realgrid, player, fullness);
-	let choose = Math.floor(Math.random() * Math.floor(nextmove[1].length));
+	let choose = Math.floor(Math.random() * nextmove[1].length);
 	setTimeout(function(){
 		move(nextmove[1][choose][0], nextmove[1][choose][1]);
 		canclick = 1;
@@ -125,7 +125,7 @@ function getBestMove(grid, player, full) {
 					bestOutcome = -outcome[0];
 					pos = [[i, j]];
 
-				} else {
+				} else if (bestOutcome <= 0) {
 					// otherwise, win is better 
 					bestOutcome = -outcome[0];
 					pos = [[i, j]];
