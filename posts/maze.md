@@ -8,12 +8,13 @@ src: ../src/maze.js
 <input type="range" min="5" max="50" value="30" class="slider" id="mySlider" style="width:100%;">
 
 
+### how to use
+click once to see wilson's algorithm in action - click again to skip to the end! 
+adjust the slider to change the grid size. the grid is limited at 50x50.
+
 ### description
-i've always wondered how people make mazes for magazines! this is a random maze generator and is different everytime! 
-there are 2 steps: maze creation and path detection.
+this maze is generated with wilson's algorithm - i had a little dig around wikipedia to implement this! 
 
-#### maze creation: disjoint set union (dsu)
-the algorithm considers each wall, and 'breaks' the wall ONLY if the two sides were not already connected together. this ensures that there is only ONE path from start to finish. (you can imagine the grid as a tree!)
+in the algorithm, the maze is initially a single point, in orange. another random point, in red, is chosen, and it randomly walks until it reaches an orange point. in the case that it walks on itself, the loop is 'erased'. continue to draw lines until the whole grid is filled!
 
-#### path detection: depth-first search (dfs)
-the algorithm randomly chooses a path and explores it to completion (in blue). if it doesn't find the exit, it simply goes back and tries again. it marks squares (in red) that it's done to not double-back on itself. when it has found the exit, it goes back and marks it in green!
+apparently, wilson's algorithm produces an unbiased maze and is a better algorithm for generating mazes than using prim's or kruskal's! i'm not really sure how myself though!

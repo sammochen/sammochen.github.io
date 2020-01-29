@@ -8,20 +8,19 @@ canvas.height = canvas.width;
 
 parent.appendChild(canvas);
 
-console.log(canvas.height);
-
 let n = 20;
 let margin = 1;
 
-let defaultColor = "#FFF9CC";
+let defaultColor = "#BAD7F2";
 let wallColor = "#000000";
-let trialColor = "#7EE8FA"
-let visitedColor = "#FFD2CC"
-let finalColor = "#80FF72";
+let goodColor = "#FFE7C4";
+let onStackColor = "#F2BAC9";
 
-let adjlist = new Array(n*n); // make an adjlist for dfs later
-let visited = new Array(n*n); // for the dfs later
-let prev = new Array(n*n); // parent of each node
+let adjlist; // make an adjlist for dfs later
+let visited; // for the dfs later
+let prev; // parent of each node
+let state; // 0 : nothing, 1: running, 2: no animate
+let animate;
 
 init();
 
@@ -31,6 +30,9 @@ slider.oninput = init;
 
 function init() {
     n = slider.value;
+    state = 0;
+    animate = true;
+
     adjlist = new Array(n*n); // make an adjlist for dfs later
     visited = new Array(n*n); // for the dfs later
     prev = new Array(n*n); // parent of each node
@@ -56,86 +58,94 @@ function hashcode(i, j) {
 }
 
 async function go() {
-    slider.disabled = true;
-    await join();
-    await dfs(0);
-    slider.disabled = false;
+    if (state == 0) {
+        state = 1;
+        slider.disabled = true;
+        await wilson();
+        //await dfs(0);
+        slider.disabled = false;
+    } else if (state == 1) {
+        state = 2;
+        animate = false;
+    } else {
+        // do nothing
+    }
 }
 
-async function join() {
-    let root = new Array(n*n);
-    for (let i = 0; i < n*n; i++) root[i] = i;
-    
-    // functions that help with disjoint set union
-    function p(x) {
-        if (x == root[x]) return x;
-        root[x] = p(root[x]);
-        return root[x];
+async function wilson() {
+    let isgood = new Array(n*n);
+    for (let i = 0; i < n*n; i++) {
+        isgood[i] = false;
     }
     
-    function merge(x, y) {
-        root[p(x)] = p(y);
-    }
+    let first = Math.floor(Math.random() * n*n);
     
-    function same(x, y) {
-        return p(x) == p(y) ? true : false;
-    }
+    drawSquare(first, goodColor);
+    isgood[first] = true;
     
-    // initialise all the edges
-    let edges = [];
-    for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
-            if (i+1<n) edges.push([hashcode(i,j), hashcode(i+1,j)]);
-            if (j+1<n) edges.push([hashcode(i,j), hashcode(i,j+1)]);
+    while (true) {
+        let left = [];
+        for (let i = 0; i < n*n; i++) {
+            if (isgood[i] == false) left.push(i);
         }
-    }
-    
-    edges.sort(() => Math.random() - 0.5);
-    
-    // join them if they were not already joined
-    for (let ind = 0; ind < edges.length; ind++) {
-        let edge = edges[ind];
-        if (same(edge[0], edge[1])) continue;
         
-        merge(edge[0], edge[1]);
+        if (left.length == 0) break;
         
-        // draw the rectangle 
-        drawJoin(edge[0], edge[1], defaultColor);
+        let start = left[Math.floor(Math.random() * left.length)]; 
         
-        // update adjlist
-        adjlist[edge[0]].push(edge[1]);
-        adjlist[edge[1]].push(edge[0]);
+        // do a dfs, loopless walk
+        let stack = [];
+        let onstack = new Array(n*n);
+        for (let i = 0; i < n*n; i++) {
+            onstack[i] = false;
+        }
         
-        // wait
-        await sleep(1);
-    }
-}
-
-async function dfs(at) {
-    visited[at] = true;
-    drawSquare(at, trialColor)
-    // wait
-    await sleep(1);
-    
-    if (at == n*n-1) return true;
-    
-    
-    for (let i = 0; i < adjlist[at].length; i++) {
-        let to = adjlist[at][i];
-        prev[to] = at;
-        if (!visited[to]) {
-            if (await dfs(to)) {
-                drawJoin(at, to, finalColor);
-                await sleep(10);
-                return true;
+        let at = start;
+        stack.push(at);
+        onstack[at] = true;
+        while (true) {
+            if (animate == true) await sleep(1);
+            // move towards some random direction
+            let i = Math.floor(at/n);
+            let j = at%n;
+            let di = [0,0,1,-1];
+            let dj = [1,-1,0,0];
+            let x = Math.floor(Math.random() * 4);
+            let nexti = i + di[x];
+            let nextj = j + dj[x];
+            if (nexti < 0 || nexti >= n || nextj < 0 || nextj >= n) continue;
+            
+            let next = nexti * n + nextj;
+            
+            if (isgood[next]) {
+                // make everything on the current stack good!
+                for (let i = 0; i < stack.length - 1; i++) {
+                    onstack[stack[i]] = false;
+                    isgood[stack[i]] = true;
+                    drawJoin(stack[i], stack[i+1], goodColor);
+                }
+                onstack[stack[stack.length - 1]] = false;
+                isgood[stack[stack.length - 1]] = true;
+                drawJoin(stack[stack.length - 1], next, goodColor);
+                
+                stack = [];
+                
+                break;
             }
+            
+            while (onstack[next] == true) {
+                onstack[stack[stack.length - 1]] = false;
+                drawSquare(stack[stack.length - 1], defaultColor);
+                stack.pop();
+            }
+            
+            stack.push(next);
+            drawSquare(next, onStackColor);
+            onstack[next] = true;
+            
+            at = next;
         }
     }
-    
-    drawSquare(at, visitedColor);
-    await sleep(1);
-    
-    return false;
 }
 
 async function sleep(ms) {
