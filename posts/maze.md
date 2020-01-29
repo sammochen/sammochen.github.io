@@ -1,6 +1,6 @@
 ---
 layout: post
-title: maze
+title: maze generation - wilson's algorithm
 src: ../src/maze.js
 ---
 
