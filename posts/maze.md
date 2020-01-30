@@ -5,12 +5,12 @@ src: ../src/maze.js
 ---
 
 
-<input type="range" min="5" max="50" value="30" class="slider" id="mySlider" style="width:100%;">
+<input type="range" min="5" max="100" value="30" class="slider" id="mySlider" style="width:100%;">
 
 
 ### how to use
 click once to see wilson's algorithm in action - click again to skip to the end! 
-adjust the slider to change the grid size. the grid is limited at 50x50.
+adjust the slider to change the grid size!
 
 ### description
 this maze is generated with wilson's algorithm - i had a little dig around wikipedia to implement this! 

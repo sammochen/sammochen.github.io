@@ -7,16 +7,16 @@ canvas.height = canvas.width;
 
 parent.appendChild(canvas);
 
-let n = 50;
+let n = 100;
 let margin = 1;
 
-let defaultColor = "#BAD7F2";
 let wallColor = "#000000";
-let goodColor = "#FFE7C4";
-let onStackColor = "#F2BAC9";
+let goodColor = "#FFFFFF";
 
 let adjlist; // make an adjlist for dfs later
 let dist; // for the dfs later
+
+let state = 0; // 0 is empty, 1 is going, 2 is colored, 3 is going
 
 init();
 wilson();
@@ -32,12 +32,6 @@ function init() {
     let ctx = canvas.getContext("2d");
     ctx.fillStyle = wallColor;
     ctx.fillRect(0,0,canvas.width,canvas.height);
-    
-    for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {            
-            drawSquare(i*n+j, defaultColor);
-        }
-    }
 }
 
 function hashcode(i, j) {
@@ -45,12 +39,20 @@ function hashcode(i, j) {
 }
 
 async function go(e) {
+    if (state == 1 || state == 3) return;
+    state += 1;
+    state %= 4;
+
     let i = Math.floor(e.offsetX * n / canvas.offsetWidth)
     let j = Math.floor(e.offsetY * n / canvas.offsetHeight);
     await bfs(hashcode(i, j));
+
+    state += 1;
+    state %= 4;
 }
 
 async function bfs(s) {
+    console.log(state);
     dist = new Array(n*n);
     for (let i = 0; i < n*n; i++) dist[i] = -1;
     let front = 0;
@@ -59,7 +61,10 @@ async function bfs(s) {
     let fill = -1;
     while (front < queue.length) {
         let at = queue[front];
-        drawSquare(at, 'hsl('+ dist[at] * 10 % 360 +',100%,50%)');
+        let hue = dist[at] * 10 % 360;
+        let hueColor = "hsl("+ hue + ",100%,50%)";
+        if (state == 1) drawSquare(at, hueColor);
+        else drawSquare(at, goodColor);
         front++;
         
         if (dist[at] > fill) {
@@ -72,11 +77,11 @@ async function bfs(s) {
                 dist[to] = dist[at] + 1;
                 queue.push(to);
 
-                drawJoin(at, to, 'hsl('+ (dist[at] * 10 + 5) % 360 +',100%,50%)')
+                if (state == 1) drawJoin(at, to, hueColor)
+                else drawJoin(at, to, goodColor);
                 
             }
         }
-        drawSquare(at, 'hsl('+ dist[at] * 10 % 360 +',100%,50%)');
     }
 
 }
@@ -144,12 +149,10 @@ async function wilson() {
             
             while (onstack[next] == true) {
                 onstack[stack[stack.length - 1]] = false;
-                drawSquare(stack[stack.length - 1], defaultColor);
                 stack.pop();
             }
             
             stack.push(next);
-            drawSquare(next, onStackColor);
             onstack[next] = true;
             
             at = next;
