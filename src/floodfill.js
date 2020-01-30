@@ -7,7 +7,7 @@ canvas.height = canvas.width;
 
 parent.appendChild(canvas);
 
-let n = 75;
+let n = 50;
 let margin = 1;
 
 let wallColor = "#000000";
