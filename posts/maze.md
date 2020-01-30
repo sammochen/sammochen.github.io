@@ -5,7 +5,7 @@ src: ../src/maze.js
 ---
 
 
-<input type="range" min="5" max="100" value="30" class="slider" id="mySlider" style="width:100%;">
+<input type="range" min="10" max="75" step="5" value="30" class="slider" id="mySlider" style="width:100%;">
 
 
 ### how to use
