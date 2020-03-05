@@ -1,7 +1,7 @@
 ---
 layout: post
-title: sudoku - recursive backtracking
-src: ../src/sudoku.js
+title: crossword - hardcore recursive backtracking
+src: ../src/crossword.js
 ---
 
 ### how to use

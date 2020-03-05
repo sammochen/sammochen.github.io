@@ -14,7 +14,6 @@ let wallColor = "#000000";
 let goodColor = "#FFFFFF";
 
 let adjlist; // make an adjlist for dfs later
-let dist; // for the dfs later
 
 let state = 0; // 0 is empty, 1 is going, 2 is colored, 3 is going
 
@@ -43,22 +42,26 @@ async function go(e) {
     state += 1;
     state %= 4;
 
-    let i = Math.floor(e.offsetX * n / canvas.offsetWidth)
-    let j = Math.floor(e.offsetY * n / canvas.offsetHeight);
-    await bfs(hashcode(i, j));
+    await bfs(0);
 
     state += 1;
     state %= 4;
 }
 
 async function bfs(s) {
-    console.log(state);
-    dist = new Array(n*n);
-    for (let i = 0; i < n*n; i++) dist[i] = -1;
+    let dist = new Array(n*n);
+    let parent = new Array(n*n);
+
+    for (let i = 0; i < n*n; i++) {
+        dist[i] = -1;
+        parent[i] = -1;
+    }
+
     let front = 0;
     let queue = [s];
     dist[s] = 0;
     let fill = -1;
+
     while (front < queue.length) {
         let at = queue[front];
         let hue = dist[at] * 10 % 360;
@@ -74,14 +77,23 @@ async function bfs(s) {
         for (let i = 0; i < adjlist[at].length; i++) {
             let to = adjlist[at][i];
             if (dist[to] == -1) {
+                parent[to] = at;
                 dist[to] = dist[at] + 1;
                 queue.push(to);
 
                 if (state == 1) drawJoin(at, to, hueColor)
                 else drawJoin(at, to, goodColor);
-                
             }
         }
+    }
+
+    if (state == 3) return;
+
+    let cur = n*n - 1;
+    while (cur != 0) {
+        drawJoin(cur, parent[cur], goodColor);
+        cur = parent[cur];
+        await sleep(20);
     }
 
 }

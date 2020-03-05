@@ -14,21 +14,23 @@ let colId; // holds real col number
 
 let map = new Map();
 map.set(0, "#FFFFFF");
-map.set(2, "#ADD2C2");
-map.set(4, "#A7D3A6");
-map.set(8, "#CFE795");
-map.set(16, "#F7EF81");
-map.set(32, "#D4C685");
-map.set(64, "#FF7FAC");
-map.set(128, "#EF64AE");
-map.set(256, "#914873");
-map.set(512, "#595959");
-map.set(1024, "#CACFD6")
-map.set(2048, "#9FD8CB");
+map.set(2, "#DB5461");
+map.set(4, "#F991CC");
+map.set(8, "#7F95D1");
+map.set(16, "#96E8BC");
+map.set(32, "#EAF8BF");
+map.set(64, "#90D7FF");
+map.set(128, "#FF6542");
+map.set(256, "#F4FDAF");
+map.set(512, "#FFD6C0");
+map.set(1024, "#DDF0FF")
+map.set(2048, "#5386E4");
+map.set(4096, "#FF01FB");
+map.set(8192, "#149911");
+map.set(16384, "#D5CFE1");
 
 start();
 document.onkeydown = handle;
-
 
 function start() {
     grid = new Array(4);
@@ -155,6 +157,7 @@ function scale(x) {
 
 let moving = 0;
 function animate(i1, j1, i2, j2, num1, num2) {
+    if (i1 == i2 && j1 == j2) return;
     moving++;
     let x1 = scale(j1);
     let y1 = scale(i1);
