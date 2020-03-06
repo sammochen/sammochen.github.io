@@ -20,4 +20,4 @@ enjoy!
 [floodfill](posts/floodfill)  
 [sudoku solver](posts/sudoku)
 
-### - sammochen 
+### - sammochen (shih-hao chen)
