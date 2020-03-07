@@ -1,6 +1,5 @@
 var parent = document.getElementById('content');
 var canvas = document.createElement('canvas');
-var slider = document.getElementById('mySlider');
 
 canvas.style.width = '100%';
 canvas.height = canvas.width;

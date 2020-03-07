@@ -18,6 +18,7 @@ enjoy!
 [2048 game](posts/2048)  
 [maze creation](posts/maze)  
 [floodfill](posts/floodfill)  
-[sudoku solver](posts/sudoku)
+[sudoku solver](posts/sudoku)  
+[network visualisation](posts/network-visualisation)
 
 ### - sammochen (shih-hao chen)
