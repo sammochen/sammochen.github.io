@@ -11,14 +11,34 @@ i am more currently more interested in the algorithmic side of things, but i do 
 this is also a personal challenge for me to learn js, as well as web-design itself, so you may see the website change here and there too.
 
 enjoy!
+#### - sammochen (shih-hao chen)
 
-### projects!
-[tic-tac-toe bot](posts/tic-tac-toe)  
-[k-means image clustering](posts/k-means)  
-[2048 game](posts/2048)  
-[maze creation](posts/maze)  
-[floodfill](posts/floodfill)  
-[sudoku solver](posts/sudoku)  
-[network visualisation](posts/network-visualisation)
+### recent projects:
+<img src="img/tictactoe.png" width="300"/>  
+[tic-tac-toe](posts/tic-tac-toe): play tic-tac-toe against a perfect bot  
 
-### - sammochen (shih-hao chen)
+----  
+<img src="img/kmeans.png" width="300"/>  
+[k-means image clustering](posts/k-means): use only k colours to colourise an image  
+
+----  
+<img src="img/2048.png" width="300"/>  
+[2048](posts/2048): an implementation of the classic 2048 game   
+
+----  
+<img src="img/maze.png" width="300">  
+[maze creation](posts/maze): see how mazes are generated!  
+
+----  
+<img src="img/floodfill.png" width="300">  
+[floodfill](posts/floodfill): watch some pretty colours fill up a maze  
+
+----  
+<img src="img/sudoku.png" width="300">  
+[sudoku solver](posts/sudoku): a brute-force solution to any sudoku grid  
+
+----   
+<img src="img/network.png" width="300">  
+[network visualisation](posts/network-visualisation): see how computers visualise complex networks
+
+----  

@@ -22,10 +22,10 @@ let edges = [[1,0], [2,0], [3,0], [3,2], [4,0], [5,0], [6,0], [7,0], [8,0], [9,0
 go();
 
 async function go() {
-    let gk = 0.001; // gravity k
-    let rk = 3; // repel k
-    let ak = 0.001; // attract k
-    let speed = 0.2;
+    let gk = 0.01; // gravity k
+    let rk = 7; // repel k
+    let ak = 0.1; // attract k
+    let speed = 0.5;
     let eps = 1;
 
     for (let i = 0; i < n; i++) {
@@ -66,10 +66,10 @@ async function go() {
 
             let dx = (nodex[edges[i][1]] - nodex[edges[i][0]]) / d;
             let dy = (nodey[edges[i][1]] - nodey[edges[i][0]]) / d;
-            nodedx[edges[i][0]] += ak * dx * d * d;
-            nodedy[edges[i][0]] += ak * dy * d * d;
-            nodedx[edges[i][1]] -= ak * dx * d * d;
-            nodedy[edges[i][1]] -= ak * dy * d * d;
+            nodedx[edges[i][0]] += ak * dx * d;
+            nodedy[edges[i][0]] += ak * dy * d;
+            nodedx[edges[i][1]] -= ak * dx * d;
+            nodedy[edges[i][1]] -= ak * dy * d;
         }
 
         // act the forces
@@ -81,7 +81,7 @@ async function go() {
         }
        
         paint();
-        await sleep(10);
+        await sleep(20);
     }
 }
 
