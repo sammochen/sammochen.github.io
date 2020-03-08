@@ -31,9 +31,8 @@
 
         <p>{{ site.description | default: site.github.project_tagline }}</p>
 
-        {% if site.github.is_project_page %}
-        <p class="view"><a href="{{ site.github.repository_url }}">view the project on github: <small>{{ site.github.repository_nwo }}</small></a></p>
-        {% endif %}
+        <h3><a href="/all-projects">all projects</a></h3>
+        <h3><a href="about-me">about me</a></h3>
 
         {% if site.github.is_user_page %}
         <p class="view"><a href="{{ site.github.owner_url }}">view my github profile</a></p>

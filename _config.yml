@@ -15,7 +15,7 @@
 # in the templates via {{ site.myvariable }}.
 title: sammochen
 email: samuelshchen@gmail.com
-description: sam's projects and side hustles
+description: home of sam's projects and side hustles
 baseurl: "" # the subpath of your site, e.g. /blog
 url: http://sammochen.github.io/
 github_username:  sammochen
