@@ -69,7 +69,7 @@ function init() {
         let x = canvas.width/2;
         if (i%2==1) x += side/2;
         while (x > 0) x -= side;
-        while (x < canvas.width) {
+        while (x < canvas.width + side) {
             let b = new ball();
             b.make(x, side * (i+1) * Math.sqrt(3) / 2, 7, 30);
             hitters.push(b);
