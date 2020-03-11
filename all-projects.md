@@ -3,7 +3,11 @@ layout: default
 ---
 
 ## all projects:
-this is where i keep all my projects! 
+this is where i keep all my projects! enjoyyy  
+
+----
+<img src="img/circumcircle.png" width="300">  
+[circumcircle](posts/circumcircle): three points define a circle: here's how
 
 ----
 <img src="img/binomial.png" width="300">  
