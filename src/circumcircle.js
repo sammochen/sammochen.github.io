@@ -8,8 +8,8 @@ canvas.style.border = "1px solid";
 
 parent.appendChild(canvas);
 
-let pointx = [10,20,30];
-let pointy = [10,20,30];
+let pointx = [50,150,200];
+let pointy = [150,250,70];
 let dragged = -1;
 
 paint();
